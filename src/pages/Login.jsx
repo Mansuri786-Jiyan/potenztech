@@ -58,12 +58,10 @@ export default function Login() {
           Login to access your dashboard
         </p>
 
-        {/* Sample Credentials Info */}
+        
         <div className="mb-4 p-3 bg-white/5 rounded-lg border border-white/10">
           <p className="text-white/70 text-sm mb-2">Sample credentials for testing:</p>
           <p className="text-white text-xs">Username: emilys | Password: emilyspass</p>
-          <p className="text-white text-xs">Username: michaelw | Password: michaelwpass</p>
-          <p className="text-white text-xs">Username: sophiab | Password: sophiabpass</p>
         </div>
 
         {error && (
@@ -120,7 +118,7 @@ export default function Login() {
           </button>
         </form>
 
-        {/* Demo Login Button */}
+       
         <button
           type="button"
           onClick={handleDemoLogin}

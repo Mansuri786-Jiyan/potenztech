@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
-  // Check if user can access another user's profile
+  
   const canAccessProfile = (profileUserId) => {
     if (!user) return false;
     return user.id === profileUserId; // Users can only access their own profile

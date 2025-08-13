@@ -32,7 +32,7 @@ export default function UserProfile() {
           </button>
         </div>
 
-        {/* Profile Information */}
+      
         <div className="space-y-6">
           <div className="flex items-center space-x-6">
             {user.image && (
@@ -79,7 +79,7 @@ export default function UserProfile() {
           </div>
         </div>
 
-        {/* Navigation */}
+  
         <div className="mt-8 pt-6 border-t border-gray-200">
           <div className="flex space-x-4">
             <button

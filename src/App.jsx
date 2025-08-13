@@ -6,12 +6,12 @@ import UserProfile from "./pages/UserProfile";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 
-// Enhanced PrivateRoute component with loading state and redirect handling
+
 function PrivateRoute({ children }) {
   const { user, isLoading } = useAuth();
   const location = useLocation();
 
-  // Show loading spinner while checking authentication
+  
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -20,7 +20,7 @@ function PrivateRoute({ children }) {
     );
   }
 
-  // If user is not authenticated, redirect to login with the attempted location
+  
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
@@ -54,62 +54,61 @@ export default function App() {
       <Router>
         <Navbar />
         <Routes>
-          {/* Public routes - redirect to /products if already logged in */}
-          <Route 
-            path="/" 
+
+          <Route
+            path="/"
             element={
               <PublicRoute>
                 <Navigate to="/login" replace />
               </PublicRoute>
-            } 
+            }
           />
-          
-          <Route 
-            path="/login" 
+
+          <Route
+            path="/login"
             element={
               <PublicRoute>
                 <Login />
               </PublicRoute>
-            } 
+            }
           />
 
-          {/* Protected routes - require authentication */}
-          <Route 
-            path="/products" 
+          <Route
+            path="/products"
             element={
               <PrivateRoute>
                 <Products />
               </PrivateRoute>
-            } 
+            }
           />
-          
-          <Route 
-            path="/profile" 
+
+          <Route
+            path="/profile"
             element={
               <PrivateRoute>
                 <UserProfile />
               </PrivateRoute>
-            } 
+            }
           />
-          
-          <Route 
-            path="/products/:id" 
+
+          <Route
+            path="/products/:id"
             element={
               <PrivateRoute>
                 <ProductDetail />
               </PrivateRoute>
-            } 
+            }
           />
 
-          {/* 404 Route */}
-          <Route 
-            path="*" 
+ 
+          <Route
+            path="*"
             element={
               <div className="flex justify-center items-center min-h-screen">
                 <div className="text-center">
                   <h1 className="text-4xl font-bold text-gray-800 mb-4">404</h1>
                   <p className="text-gray-600 mb-4">Page not found</p>
-                  <button 
+                  <button
                     onClick={() => window.history.back()}
                     className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition duration-300"
                   >
@@ -117,7 +116,7 @@ export default function App() {
                   </button>
                 </div>
               </div>
-            } 
+            }
           />
         </Routes>
       </Router>
