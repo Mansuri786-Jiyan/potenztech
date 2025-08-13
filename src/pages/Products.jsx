@@ -27,7 +27,7 @@ export default function Products() {
                 <div key={product.id} className="flex-none w-64 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
                   <Link
                     key={product.id}
-                    to={`/products/${product.id}`}
+                    to={`/products/{product.id}`}
                     className="group bg-white/30 border border-white/30 rounded-2xl shadow-xl p-5 flex flex-col items-center backdrop-blur-xl transition-transform hover:scale-105 hover:shadow-2xl hover:bg-white/50 duration-300 w-full sm:w-[320px] md:w-[300px] lg:w-[280px]"
                   >
                     <div className="relative w-full flex justify-center">
@@ -36,7 +36,7 @@ export default function Products() {
                         alt={product.title}
                         className="h-40 w-full object-cover rounded-xl shadow-md border border-white/40 group-hover:scale-105 transition-transform duration-300"
                       />
-                      <span className="absolute top-2 right-2 bg-gradient-to-tr from-pink-400 to-purple-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg backdrop-blur-md">${product.price}</span>
+                      <span className="absolute top-2 right-2 bg-gradient-to-tr from-pink-400 to-purple-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg backdrop-blur-md">Price: &#8377;{product.price}</span>
                     </div>
                     <h2 className="font-bold text-lg text-gray-800 mt-4 mb-1 text-center group-hover:text-purple-600 transition-colors tracking-tight">
                       {product.title}
@@ -70,7 +70,7 @@ export default function Products() {
                     <div className="p-4">
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-lg font-semibold text-gray-900">
-                          ${product.price}
+                          Price: &#8377;{product.price}
                         </span>
                         <div className="flex items-center">
                           <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>

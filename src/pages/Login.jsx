@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
-  const [username, setUsername] = useState("emilys");
-  const [password, setPassword] = useState("emilyspass");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
 
   const handleSubmit = async (e) => {
@@ -16,20 +18,34 @@ export default function Login() {
       return;
     }
 
+    setIsLoading(true);
+    setError("");
+
     try {
       const res = await fetch("https://dummyjson.com/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
+      
       if (!res.ok) throw new Error("Invalid credentials");
 
       const data = await res.json();
       login(data);
-      navigate("/products");
+      
+      // Redirect to intended page or default to products
+      const from = location.state?.from?.pathname || "/products";
+      navigate(from, { replace: true });
     } catch {
       setError("Invalid username or password");
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handleDemoLogin = () => {
+    setUsername("emilys");
+    setPassword("emilyspass");
   };
 
   return (
@@ -41,6 +57,14 @@ export default function Login() {
         <p className="text-white/80 text-center mb-6">
           Login to access your dashboard
         </p>
+
+        {/* Sample Credentials Info */}
+        <div className="mb-4 p-3 bg-white/5 rounded-lg border border-white/10">
+          <p className="text-white/70 text-sm mb-2">Sample credentials for testing:</p>
+          <p className="text-white text-xs">Username: emilys | Password: emilyspass</p>
+          <p className="text-white text-xs">Username: michaelw | Password: michaelwpass</p>
+          <p className="text-white text-xs">Username: sophiab | Password: sophiabpass</p>
+        </div>
 
         {error && (
           <p className="bg-red-500 text-white py-2 px-3 rounded-md text-sm text-center mb-4">
@@ -64,6 +88,7 @@ export default function Login() {
               autoComplete="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              disabled={isLoading}
             />
           </div>
 
@@ -82,16 +107,28 @@ export default function Login() {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={isLoading}
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold py-3 rounded-lg shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-[1.02]"
+            disabled={isLoading}
+            className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold py-3 rounded-lg shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
+
+        {/* Demo Login Button */}
+        <button
+          type="button"
+          onClick={handleDemoLogin}
+          disabled={isLoading}
+          className="w-full mt-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium py-2 rounded-lg shadow hover:from-gray-600 hover:to-gray-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Use Demo Credentials
+        </button>
       </div>
     </div>
   );

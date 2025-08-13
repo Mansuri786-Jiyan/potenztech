@@ -1,40 +1,61 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/login");
+    logout();
+    navigate('/login');
   };
 
   return (
-    <nav className="backdrop-blur-lg bg-white/20 border-b border-white/30 shadow-lg px-6 py-3 flex justify-between items-center sticky top-0 z-50">
-      {/* Left Links */}
-      <div className="flex gap-6">
-        <Link
-          to="/products"
-          className="text-white font-semibold hover:text-pink-300 transition"
-        >
-          Products
-        </Link>
-        <Link
-          to="/profile"
-          className="text-white font-semibold hover:text-pink-300 transition"
-        >
-          Profile
-        </Link>
-      </div>
+    <nav className="bg-white shadow-lg">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center">
+            <Link to="/products" className="text-xl font-bold text-purple-600">
+              MyApp
+            </Link>
+          </div>
 
-      {/* Logout Button */}
-      <button
-        onClick={handleLogout}
-        className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-lg shadow-md hover:from-pink-600 hover:to-purple-600 transform hover:scale-[1.03] transition-all duration-300"
-      >
-        Logout
-      </button>
+          <div className="flex items-center space-x-4">
+            {user ? (
+              <>
+                <Link
+                  to="/products"
+                  className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Products
+                </Link>
+                <Link
+                  to="/profile"
+                  className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Profile
+                </Link>
+                <span className="text-gray-600 text-sm">
+                  Welcome, {user.firstName}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-red-600 transition duration-300"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                className="bg-purple-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-purple-600 transition duration-300"
+              >
+                Login
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
     </nav>
   );
 }
